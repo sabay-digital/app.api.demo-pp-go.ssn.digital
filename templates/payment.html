@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Payment</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Sabay Demo Payment Provider</h1>
+        </div>
+        <div class="container">
+            <h2 class="subtitle">Confirm Payment</h2>
+            <p>You are about to pay {{.Payment_service_name}}. Please confirm the amount and currency</p>
+            {{$dest := .Payment_destination}}
+            {{$memo := .Payment_memo}}
+            {{$redirect := .Redirect}}
+            {{range .Payment_details}}
+            <form action="/v1/pay" method="post">
+                <input type="hidden" name="asset_code" value="{{.Asset_code}}">
+                <input type="hidden" name="payment_destination" value="{{$dest}}">
+                <input type="hidden" name="memo" value="{{$memo}}">
+                <input type="hidden" name="redirect" value="{{$redirect}}">
+                {{if .Amount}}
+                <input type="hidden" name="amount" value="{{.Amount}}">
+                <div class="field is-grouped">
+                    <p class="control">Pay {{.Amount}} {{.Asset_code}}</p>
+                    <div class="control">
+                        <button class="button" type="submit">Confirm</button>
+                    </div>
+                </div>
+                {{else}}
+                <div class="field is-grouped">
+                    <p class="control">Pay</p>
+                    <div class="control">
+                        <input class="input" type="text" placeholder="Enter an amount" name="amount" required>
+                    </div>
+                    <p class="control">{{.Asset_code}}</p>
+                    <div class="control">
+                        <button class="button" type="submit">Confirm</button>
+                    </div>
+                </div>
+                {{end}}
+            </form>
+            <br>
+            {{end}}
+        </div>
+        
+    </section>
+</body>
+</html>
