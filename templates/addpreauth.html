@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Preauthorization</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Sabay Demo Payment Provider</h1>
+        </div>
+        <div class="container">
+            <h2 class="subtitle">Pre-Authorize Payment</h2>
+            <div class="content">
+                <p>You are about to authorize {{.Service_name}} to collect payments for the following currencies:</p>
+            </div>
+            <form action="/v1/auth" method="post">
+                {{range .Currencies}}
+                <label class="checkbox">
+                    <input type="checkbox" name="currencies" value="{{.}}">
+                    {{.}}
+                </label>
+                {{end}}
+                <input type="hidden" name="service_user_key" value="{{.Service_user_key}}">
+                <input type="hidden" name="service_key" value="{{.Service_key}}">
+                <input type="hidden" name="service_name" value="{{.Service_name}}">
+                <input type="hidden" name="redirect" value="{{.Redirect}}">
+
+                <div class="control">
+                    <button class="button" type="submit">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
